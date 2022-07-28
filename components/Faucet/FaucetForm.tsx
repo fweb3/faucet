@@ -104,6 +104,7 @@ export const FaucetForm = () => {
       setLoading(false)
     }
   }
+
   return (
     <>
       <LoadingOverlay

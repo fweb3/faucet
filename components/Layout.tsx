@@ -10,7 +10,7 @@ export const Layout = ({ children }: IDefaultProps): JSX.Element => {
         <meta name='description' content='A faucet for fweb3' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <NavBar />
+      {/* <NavBar /> */}
       <Container disableGutters>{children}</Container>
     </>
   )
