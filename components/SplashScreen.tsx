@@ -13,9 +13,6 @@ const FaucetDisabled = () => {
 }
 
 export const SplashScreen = () => {
-  if (true) {
-    return <FaucetDisabled />
-  }
   return (
     <Box
       display='flex'

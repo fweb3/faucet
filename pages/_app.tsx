@@ -1,9 +1,9 @@
-import { AuthProvider, NetworkProvider } from '../hooks'
-import { ThemeProvider } from '@mui/material/styles'
+import { AuthProvider, NetworkProvider, PrismaProvider } from '../hooks'
 import { Layout } from '../components/Layout'
+import { theme } from '../theme'
+import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import type { AppProps } from 'next/app'
-import { theme } from '../theme'
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -11,9 +11,11 @@ function App({ Component, pageProps }: AppProps) {
       <CssBaseline />
       <AuthProvider>
         <NetworkProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <PrismaProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </PrismaProvider>
         </NetworkProvider>
       </AuthProvider>
     </ThemeProvider>
