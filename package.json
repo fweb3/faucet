@@ -8,6 +8,9 @@
     "build": "next build",
     "start": "NODE_OPTIONS='--http-server-default-timeout=0' next start",
     "lint": "next lint",
+    "db": "docker run --rm --name fweb3-dev-db -p 5432:5432 -e POSTGRES_PASSWORD=fweb3 -e POSTGRES_DB=fweb3_dev postgres:14-alpine",
+    "db:migrate": "npx prisma migrate dev",
+    "db:seed": "npx ts-node -O '{\"module\":\"commonjs\"}' scripts/seed.ts",
     "sync:local": "npx ts-node -O '{\"module\":\"commonjs\"}' scripts/sync.ts local",
     "sync:mumbai": "npx ts-node -O '{\"module\":\"commonjs\"}' scripts/sync.ts mumbai",
     "sync:polygon": "npx ts-node -O '{\"module\":\"commonjs\"}' scripts/sync.ts polygon"
@@ -20,6 +23,7 @@
     "@mui/lab": "^5.0.0-alpha.77",
     "@mui/material": "^5.6.1",
     "@mui/styled-engine-sc": "^5.6.1",
+    "@prisma/client": "^4.1.1",
     "@walletconnect/web3-provider": "^1.7.7",
     "@web3auth/web3auth": "^0.9.0",
     "cors": "^2.8.5",
@@ -42,6 +46,7 @@
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.5",
     "fs-extra": "^10.1.0",
+    "prisma": "^4.1.1",
     "typescript": "4.6.3"
   }
 }
