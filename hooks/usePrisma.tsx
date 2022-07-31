@@ -1,15 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useAuth } from './useAuth'
-
-interface IUser {
-  account: string
-  twitter?: string
-  discord?: string
-  userToken?: string
-  active: boolean
-  updatedAt?: Date
-  createdAt?: Date
-}
+import type { IUser } from '../prisma/prisma.d'
 
 interface IPrismaContext {
   user: IUser
@@ -20,9 +11,13 @@ interface IPrismaContext {
 const defaultContext = {
   user: {
     account: '',
+    verified: false,
+    sentFweb3: false,
+    sentMatic: false,
+    isAdmin: false,
+    email: '',
     twitter: '',
     discord: '',
-    userToken: '',
     active: false,
     updatedAt: null,
     createdAt: null,
@@ -34,7 +29,7 @@ const defaultContext = {
 const PrismaContext = createContext<IPrismaContext>(defaultContext)
 
 const PrismaProvider = ({ children }) => {
-  const { account: connectedAccount, isConnected } = useAuth()
+  const { account: connectedAccount, isConnected, setError } = useAuth()
   const [fetching, setFetching] = useState<boolean>(false)
   const [user, setUser] = useState<IUser>()
 
@@ -50,7 +45,6 @@ const PrismaProvider = ({ children }) => {
         },
       })
       const data = await res.json()
-      console.log('DAT', data)
       return data
     }
   }
@@ -58,16 +52,21 @@ const PrismaProvider = ({ children }) => {
   useEffect(() => {
     ;(async () => {
       try {
-        setFetching(true)
-        const user = await fetchUserData(connectedAccount)
-        // console.log({ user })
-        setUser(user)
-        setFetching(false)
+        if (connectedAccount) {
+          setFetching(true)
+          setError('')
+          const user = await fetchUserData(connectedAccount)
+          console.log({ user })
+          setUser(user)
+          setFetching(false)
+        }
       } catch (err) {
         console.error(err)
+        setError(err.message)
+        setFetching(false)
       }
     })()
-  }, [connectedAccount, isConnected])
+  }, [connectedAccount, isConnected, setError])
   return (
     <PrismaContext.Provider
       value={{

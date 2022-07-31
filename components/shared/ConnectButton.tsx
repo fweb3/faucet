@@ -1,15 +1,13 @@
-import { Button, AppBar, Typography, useTheme, Toolbar } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { ErrorAlert } from '../ErrorAlert'
 import { IAuthState, useAuth } from '../../hooks'
 import { LoadingButton } from '@mui/lab'
 import { useState } from 'react'
 
 export const ConnectButton = () => {
-  const [error, setError] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
-  const { isConnected }: IAuthState = useAuth()
+  const { isConnected, connecting, error } = useAuth()
   const { authenticate, deauthenticate } = useAuth()
-  const theme = useTheme()
 
   const styles = {
     connectButton: {
@@ -18,15 +16,7 @@ export const ConnectButton = () => {
   }
 
   const handleConnect = async () => {
-    try {
-      setError('')
-      setLoading(true)
-      await authenticate()
-      setLoading(false)
-    } catch (e: any) {
-      setError(e?.message)
-      setLoading(false)
-    }
+    await authenticate()
   }
   const handleDisconnect = () => {
     deauthenticate()
@@ -59,7 +49,6 @@ export const ConnectButton = () => {
           <Typography>Disconnect</Typography>
         </Button>
       )}
-      <ErrorAlert error={error} setError={setError} />
     </>
   )
 }

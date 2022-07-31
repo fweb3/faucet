@@ -8,10 +8,14 @@ datasource db {
 }
 
 model User {
-  account   String   @id
-  twitter   String?  @unique
-  discord   String?
-  userToken String?  @unique
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
+  account    String   @id
+  email      String?  @unique
+  twitter    String?  @unique
+  discord    String?  @unique
+  verified   Boolean  @default(false)
+  sentFweb3  Boolean  @default(false)
+  sentMatic  Boolean  @default(false)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
