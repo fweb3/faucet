@@ -6,6 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    console.log(req.body)
     const payload = await fetchOrCreateUser(req.body)
     return res.status(200).json(payload)
   } catch (err: any) {

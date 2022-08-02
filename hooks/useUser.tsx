@@ -6,13 +6,11 @@ import { useNetwork } from './useNetwork'
 interface IUserContext {
   user: IUser
   fetching: boolean
-  fetchUserData: (account: string) => Promise<IUser>
 }
 
 const defaultContext = {
   user: null,
   fetching: false,
-  fetchUserData: () => null,
 }
 
 const UserContext = createContext<IUserContext>(defaultContext)
@@ -23,45 +21,27 @@ const UserProvider = ({ children }) => {
   const [fetching, setFetching] = useState<boolean>(false)
   const [user, setUser] = useState<IUser>(null)
 
-  const fetchUserData = async (account: string): Promise<IUser> => {
-
-    if (account) {
-      const data = await fetcher('/api/user', {
-        method: 'POST',
-        body: JSON.stringify({
-          network: networkName,
-          account
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      return data
-    }
-  }
-
   useEffect(() => {
     ;(async () => {
-      try {
-        if (connectedAccount && networkName !== 'Not Connected') {
-          setFetching(true)
-          setError('')
-          const user = await fetcher('/api/user', {
-            method: 'POST',
-            body: JSON.stringify({
-              network: networkName,
-              account: connectedAccount,
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-          setUser(user)
+      if (connectedAccount && networkName !== 'Not Connected') {
+        setFetching(true)
+        setError('')
+        const user = await fetcher('/api/user', {
+          method: 'POST',
+          body: JSON.stringify({
+            network: networkName,
+            account: connectedAccount,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        if (user.status !== 'ok') {
+          setError(user.message)
           setFetching(false)
+          return
         }
-      } catch (err) {
-        console.error(err)
-        setError(err.message)
+        setUser(user)
         setFetching(false)
       }
     })()
@@ -71,7 +51,6 @@ const UserProvider = ({ children }) => {
       value={{
         user,
         fetching,
-        fetchUserData,
       }}
     >
       {children}

@@ -1,4 +1,5 @@
 declare var window: any
+import { fetchIpInfo } from '../services/ipinfo.service'
 
 import { createContext, useState, useEffect, useContext } from 'react'
 import { ethers } from 'ethers'

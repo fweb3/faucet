@@ -6,8 +6,11 @@ import {
   Button,
   Paper,
 } from '@mui/material'
+import { useUser } from '../../hooks'
 
 const VerificationForm = () => {
+    const { user } = useUser()
+
   const sending = false
   return (
     <Container
@@ -52,6 +55,7 @@ const VerificationForm = () => {
           </Button>
         </Container>
       </Paper>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
     </Container>
   )
 }
