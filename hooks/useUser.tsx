@@ -6,11 +6,15 @@ import { useNetwork } from './useNetwork'
 interface IUserContext {
   user: IUser
   fetching: boolean
+  setClientInfo: (data: unknown) => void
+  clientInfo: unknown
 }
 
 const defaultContext = {
   user: null,
   fetching: false,
+  clientInfo: null,
+  setClientInfo: () => null
 }
 
 const UserContext = createContext<IUserContext>(defaultContext)
@@ -20,6 +24,7 @@ const UserProvider = ({ children }) => {
   const { networkName } = useNetwork()
   const [fetching, setFetching] = useState<boolean>(false)
   const [user, setUser] = useState<IUser>(null)
+  const [clientInfo, setClientInfo] = useState<unknown>(null)
 
   useEffect(() => {
     ;(async () => {
@@ -31,6 +36,7 @@ const UserProvider = ({ children }) => {
           body: JSON.stringify({
             network: networkName,
             account: connectedAccount,
+            clientInfo
           }),
           headers: {
             'Content-Type': 'application/json',
@@ -45,12 +51,14 @@ const UserProvider = ({ children }) => {
         setFetching(false)
       }
     })()
-  }, [connectedAccount, isConnected, setError, networkName])
+  }, [connectedAccount, isConnected, setError, networkName, clientInfo])
   return (
     <UserContext.Provider
       value={{
         user,
         fetching,
+        setClientInfo,
+        clientInfo,
       }}
     >
       {children}

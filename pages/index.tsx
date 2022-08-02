@@ -4,18 +4,42 @@ import { SplashScreen } from '../components/SplashScreen'
 import { useAuth } from '../hooks/useAuth'
 import type { NextPage } from 'next'
 import { VerificationForm } from '../components/Verification/VerificationForm'
+import { useUser } from '../hooks'
+import { useEffect } from 'react'
 
-const Home: NextPage = (props) => {
+interface IClientInfoProps {
+  [key: string]: unknown
+}
+
+const Home: NextPage = ({ clientInfo }: IClientInfoProps) => {
   const { isConnected } = useAuth()
+  const { setClientInfo } = useUser()
+
+  useEffect(() => {
+    setClientInfo(clientInfo)
+  }, [setClientInfo, clientInfo])
+
   return (
-    <Container>{isConnected ? <VerificationForm /> : <SplashScreen />}</Container>
+    <Container>
+      {isConnected ? <VerificationForm /> : <SplashScreen />}
+    </Container>
   )
 }
 
-Home.getInitialProps = async ({ req }) => {
-  const ip = req.headers['x-forwarded-for']
-  console.log({ ip })
-  return { ip }
+export async function getServerSideProps(context) {
+  const { req } = context
+  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent
+  return {
+    props: {
+      clientInfo: {
+        ...req.headers,
+        userAgent,
+        ip:
+          req?.connection?.remoteAddress ||
+          req.headers['x-forwarded-for'].split(',')[0],
+      },
+    },
+  }
 }
 
 export default Home

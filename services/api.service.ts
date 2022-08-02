@@ -1,5 +1,4 @@
 import { fetcher } from '../hooks/fetcher'
-import { fetchIpInfo } from './ipinfo.service'
 import { IUserVerifyClientRequest, IUserVerifyResponse } from './services.d'
 
 export async function fetchOrCreateUser(
@@ -10,8 +9,7 @@ export async function fetchOrCreateUser(
     return null
   }
   const fweb3ApiUrl = `${process.env.FWEB3_API}/user`
-  const ipinfo = await fetchIpInfo()
-  const body = JSON.stringify({ ...incomingBody, ipinfo })
+  const body = JSON.stringify(incomingBody)
   const config = {
     method: 'POST',
     headers: {

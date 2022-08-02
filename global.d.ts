@@ -34,6 +34,7 @@ interface IGameTaskState {
 
 interface IUser {
     id: string
+    ip: string
     createdAt: DateTime
     updatedAt: DateTime
     account: string
@@ -45,6 +46,7 @@ interface IUser {
     taskState: IGameTaskState
     active: boolean
     ipinfo: IIpInfo
+    clientInfo?: string
 }
 
 interface ITwitterData {
@@ -71,6 +73,7 @@ interface IIpInfo {
     org?: string
     postal?: string
     timezone?: string
+    userAgent?: string
 }
 
 enum Role {

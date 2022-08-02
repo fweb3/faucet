@@ -9,7 +9,7 @@ import {
 import { useUser } from '../../hooks'
 
 const VerificationForm = () => {
-    const { user } = useUser()
+  const { user, clientInfo } = useUser()
 
   const sending = false
   return (
@@ -55,7 +55,7 @@ const VerificationForm = () => {
           </Button>
         </Container>
       </Paper>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <pre>{JSON.stringify({ user, clientInfo }, null, 2)}</pre>
     </Container>
   )
 }
