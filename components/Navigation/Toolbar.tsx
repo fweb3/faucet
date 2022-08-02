@@ -33,7 +33,6 @@ export const NavBar = () => {
         <ConnectButton />
         <NetworkInformation />
       </Toolbar>
-      <ErrorAlert error={error} setError={setError} />
     </AppBar>
   )
 }
