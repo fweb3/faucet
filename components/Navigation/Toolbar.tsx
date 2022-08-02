@@ -1,4 +1,4 @@
-import { ConnectButton } from './ConnectButton'
+import { ConnectButton } from '../shared/ConnectButton'
 import { NetworkInformation } from './NetworkInformation'
 import { AppBar, Toolbar } from '@mui/material'
 import { ErrorAlert } from '../ErrorAlert'

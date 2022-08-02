@@ -1,17 +1,18 @@
+import { ALLOWED_NETWORKS, NETWORKS } from '../../constants'
+import { Container, useTheme } from '@mui/material'
+import { Fweb3Button } from './Fweb3'
+import { green, red } from '@mui/material/colors'
+import { INetworkState, useAuth, useNetwork } from '../../hooks'
+import { LargeText } from '../shared/LargeText'
+import { Layout } from '../Layout'
 import { LoadingOverlay } from '../LoadingOverlay'
+import { MaticButton } from './Matic'
 import { useState } from 'react'
 import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
-import Typography from '@mui/material/Typography'
-import { ALLOWED_NETWORKS, NETWORKS } from '../../constants'
-import { Fweb3Button } from './Fweb3'
-import { MaticButton } from './Matic'
 import Link from 'next/link'
-import { Container, useTheme } from '@mui/material'
-import { green, red } from '@mui/material/colors'
-import { LargeText } from '../shared/LargeText'
+import Paper from '@mui/material/Paper'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { INetworkState, useAuth, useNetwork } from '../../hooks'
+import Typography from '@mui/material/Typography'
 
 export const createScannerUrl = (
   chainId: number,
@@ -106,68 +107,70 @@ export const FaucetForm = () => {
   }
 
   return (
-    <>
-      <LoadingOverlay
-        isLoading={loading}
-        loadingMessage='Sending Transaction...'
-      />
-      <Box sx={styles.container}>
-        {startCapatcha ? (
-          <Container
-            sx={{
-              height: '100vh',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <ReCAPTCHA
-              sitekey='6Ld13o4fAAAAAMByXu-GE5J34kq_hoUDZRd9tMFy'
-              onChange={handleCapatcha}
-            />
-          </Container>
-        ) : (
-          <Paper elevation={24} sx={styles.form}>
-            <LargeText text='Fweb3 Faucet (beta)' />
-            {transaction ? (
-              <Typography variant='h4'>Success!</Typography>
-            ) : (
-              <Box
-                m={3}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                {error ? null : (
-                  <>
-                    <Fweb3Button handleSubmit={triggerFaucetRequest} />
-                    <MaticButton handleSubmit={triggerFaucetRequest} />
-                  </>
-                )}
-              </Box>
-            )}
-            {transaction && (
-              <>
-                <Typography>Transaction Hash</Typography>
-                <Typography>{transaction}</Typography>
-                {scannerUrl && (
-                  <Link href={scannerUrl} passHref>
-                    <Typography variant='body1' sx={{ color: green[500] }}>
-                      View on polygonscan
-                    </Typography>
-                  </Link>
-                )}
-              </>
-            )}
-            {error && (
-              <Typography variant='body1' sx={{ color: red[300] }}>
-                {error}
-              </Typography>
-            )}
-          </Paper>
-        )}
-      </Box>
-    </>
+    <Layout>
+      <>
+        <LoadingOverlay
+          isLoading={loading}
+          loadingMessage='Sending Transaction...'
+        />
+        <Box sx={styles.container}>
+          {startCapatcha ? (
+            <Container
+              sx={{
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <ReCAPTCHA
+                sitekey='6Ld13o4fAAAAAMByXu-GE5J34kq_hoUDZRd9tMFy'
+                onChange={handleCapatcha}
+              />
+            </Container>
+          ) : (
+            <Paper elevation={24} sx={styles.form}>
+              <LargeText text='Fweb3 Faucet (beta)' />
+              {transaction ? (
+                <Typography variant='h4'>Success!</Typography>
+              ) : (
+                <Box
+                  m={3}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  {error ? null : (
+                    <>
+                      <Fweb3Button handleSubmit={triggerFaucetRequest} />
+                      <MaticButton handleSubmit={triggerFaucetRequest} />
+                    </>
+                  )}
+                </Box>
+              )}
+              {transaction && (
+                <>
+                  <Typography>Transaction Hash</Typography>
+                  <Typography>{transaction}</Typography>
+                  {scannerUrl && (
+                    <Link href={scannerUrl} passHref>
+                      <Typography variant='body1' sx={{ color: green[500] }}>
+                        View on polygonscan
+                      </Typography>
+                    </Link>
+                  )}
+                </>
+              )}
+              {error && (
+                <Typography variant='body1' sx={{ color: red[300] }}>
+                  {error}
+                </Typography>
+              )}
+            </Paper>
+          )}
+        </Box>
+      </>
+    </Layout>
   )
 }

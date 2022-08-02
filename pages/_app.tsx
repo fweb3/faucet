@@ -1,19 +1,20 @@
-import { AuthProvider, NetworkProvider } from '../hooks'
+import { AuthProvider, NetworkProvider, UserProvider } from '../hooks'
+import { ErrorAlert } from '../components/ErrorAlert'
+import { theme } from '../theme'
 import { ThemeProvider } from '@mui/material/styles'
-import { Layout } from '../components/Layout'
 import CssBaseline from '@mui/material/CssBaseline'
 import type { AppProps } from 'next/app'
-import { theme } from '../theme'
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
+      <ErrorAlert />
       <CssBaseline />
       <AuthProvider>
         <NetworkProvider>
-          <Layout>
+          <UserProvider>
             <Component {...pageProps} />
-          </Layout>
+          </UserProvider>
         </NetworkProvider>
       </AuthProvider>
     </ThemeProvider>

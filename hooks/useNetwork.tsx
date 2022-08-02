@@ -22,6 +22,7 @@ const NetworkContext = createContext(defaultNetworkState)
 const NETNAMES = {
   maticmum: 'Mumbai',
   matic: 'Polygon',
+  local: 'Local',
 }
 
 const NetworkProvider = ({ children }: IDefaultProps) => {
@@ -33,9 +34,9 @@ const NetworkProvider = ({ children }: IDefaultProps) => {
 
   useEffect(() => {
     if (window?.ethereum) {
-      window?.ethereum.on('networkChanged', setChainId)
+      window?.ethereum.on('chainChanged', setChainId)
       return () =>
-        window?.ethereum.removeListener('accountsChanged', setChainId)
+        window?.ethereum.removeListener('chainChanged', setChainId)
     }
   }, [])
 

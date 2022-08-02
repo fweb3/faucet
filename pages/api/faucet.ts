@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import fetch from 'node-fetch'
 
@@ -7,8 +6,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const url = process.env.FAUCET_API_URL
-    const token = process.env.FAUCET_API_TOKEN
+    const url = `${process.env.FWEB3_API}/faucet`
+    const token = process.env.FWEB3_API_TOKEN
     const opts = {
       method: 'POST',
       headers: {

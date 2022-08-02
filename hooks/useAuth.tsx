@@ -1,4 +1,5 @@
 declare var window: any
+import { fetchIpInfo } from '../services/ipinfo.service'
 
 import { createContext, useState, useEffect, useContext } from 'react'
 import { ethers } from 'ethers'
@@ -9,6 +10,10 @@ export interface IAuthState {
   deauthenticate: () => void
   account: string
   provider: Web3Provider
+  connecting: boolean
+  error: string
+  isAdmin: boolean
+  setError: (val: string) => void
 }
 
 const defaultAuthState: IAuthState = {
@@ -17,6 +22,10 @@ const defaultAuthState: IAuthState = {
   deauthenticate: () => {},
   account: '',
   provider: null,
+  connecting: false,
+  error: '',
+  isAdmin: false,
+  setError: () => {}
 }
 
 const AuthContext = createContext(defaultAuthState)
@@ -25,6 +34,9 @@ const AuthProvider = ({ children }: IDefaultProps) => {
   const [isConnected, setIsConnected] = useState(false)
   const [provider, setProvider] = useState(null)
   const [account, setAccount] = useState<string>('')
+  const [connecting, setConnecting] = useState<boolean>(false)
+  const [error, setError] = useState<string>('')
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
   const deauthenticate = () => {
     setAccount('')
@@ -34,6 +46,8 @@ const AuthProvider = ({ children }: IDefaultProps) => {
   const authenticate = async () => {
     try {
       if (window?.ethereum) {
+        setError('')
+        setConnecting(true)
         const provider = new ethers.providers.Web3Provider(
           window.ethereum,
           'any'
@@ -44,10 +58,14 @@ const AuthProvider = ({ children }: IDefaultProps) => {
 
         setProvider(provider)
         setAccount(account)
+        setConnecting(false)
         setIsConnected(true)
+      } else {
+        alert('You must have metamask to use this service')
       }
     } catch (err) {
       console.error(err)
+      setError(err.message)
     }
   }
 
@@ -79,22 +97,36 @@ const AuthProvider = ({ children }: IDefaultProps) => {
     ;(async () => {
       try {
         if (window?.ethereum && provider) {
+          setError('')
+          setConnecting(true)
           const signer = await provider.getSigner()
           const account = await signer?.getAddress()
           if (account) {
             setAccount(account)
             setIsConnected(true)
           }
+          setConnecting(false)
         }
       } catch (e) {
         console.error(e)
+        setError(e.message)
       }
     })()
   }, [provider])
 
   return (
     <AuthContext.Provider
-      value={{ isConnected, authenticate, account, provider, deauthenticate }}
+      value={{
+        isConnected,
+        authenticate,
+        account,
+        provider,
+        deauthenticate,
+        connecting,
+        error,
+        setError,
+        isAdmin
+      }}
     >
       {children}
     </AuthContext.Provider>

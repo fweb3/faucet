@@ -19,7 +19,7 @@ export const usePermissions = (): IPermissionsState => {
   const [canUseMaticFaucet, setCanUseMaticFaucet] = useState<boolean>(false)
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const { chainId }: INetworkState = useNetwork()
-  const { isConnected }: IAuthState = useAuth()
+  const { isConnected, account }: IAuthState = useAuth()
 
   useEffect(() => {
     if (isConnected && ALLOWED_NETWORKS[chainId]) {
@@ -27,7 +27,7 @@ export const usePermissions = (): IPermissionsState => {
       setCanUseMaticFaucet(true)
     }
 
-  }, [chainId, isConnected])
+  }, [chainId, isConnected, account])
   return {
     isAdmin,
     canUseMaticFaucet,

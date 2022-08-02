@@ -18,3 +18,63 @@ interface IFweb3ContractAddresses {
   fweb3Token?: string
   fweb3Trophy?: string
 }
+
+interface IGameTaskState {
+  hasUsedFweb3Faucet?: string
+  hasUsedMaticFaucet?: string
+  hasSentTokens?: string
+  hasMintedDiamondNFT?: string
+  hasBurnedTokens?: string
+  hasSwappedTokens?: string
+  hasVotedInPoll?: string
+  hasDeployedContract?: string
+  hasWonGame?: string
+  trophyId?: string
+}
+
+interface IUser {
+    id: string
+    createdAt: DateTime
+    updatedAt: DateTime
+    account: string
+    email?: string
+    twitter: ITwitterData
+    discord?: string
+    ens?: string
+    role: Role
+    taskState: IGameTaskState
+    active: boolean
+    ipinfo: IIpInfo
+}
+
+interface ITwitterData {
+    id: string
+    profileImageUrl?: string
+    name?: string
+    twitterId?: string
+    username?: string
+    followersCount?: number
+    followingCount?: number
+    tweetCount?: number
+    location?: string
+    twitterCreatedAt?: DateTime
+}
+
+interface IIpInfo {
+    id: string
+    ip?: string
+    hostname?: string
+    country?: string
+    city?: string
+    region?: string
+    loc?: string
+    org?: string
+    postal?: string
+    timezone?: string
+}
+
+enum Role {
+  PLAYER,
+  ADMIN,
+  ROOT
+}
