@@ -1,50 +1,41 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import { fetcher } from './fetcher'
 import { useAuth } from './useAuth'
-import type { IUser } from '../prisma/prisma.d'
+import { useNetwork } from './useNetwork'
 
-interface IPrismaContext {
+interface IUserContext {
   user: IUser
   fetching: boolean
   fetchUserData: (account: string) => Promise<IUser>
 }
 
 const defaultContext = {
-  user: {
-    account: '',
-    verified: false,
-    sentFweb3: false,
-    sentMatic: false,
-    isAdmin: false,
-    email: '',
-    twitter: '',
-    discord: '',
-    active: false,
-    updatedAt: null,
-    createdAt: null,
-  },
+  user: null,
   fetching: false,
   fetchUserData: () => null,
 }
 
-const PrismaContext = createContext<IPrismaContext>(defaultContext)
+const UserContext = createContext<IUserContext>(defaultContext)
 
-const PrismaProvider = ({ children }) => {
+const UserProvider = ({ children }) => {
   const { account: connectedAccount, isConnected, setError } = useAuth()
+  const { networkName } = useNetwork()
   const [fetching, setFetching] = useState<boolean>(false)
-  const [user, setUser] = useState<IUser>()
+  const [user, setUser] = useState<IUser>(null)
 
   const fetchUserData = async (account: string): Promise<IUser> => {
+
     if (account) {
-      const res = await fetch('/api/user', {
+      const data = await fetcher('/api/user', {
         method: 'POST',
         body: JSON.stringify({
-          account,
+          network: networkName,
+          account
         }),
         headers: {
           'Content-Type': 'application/json',
         },
       })
-      const data = await res.json()
       return data
     }
   }
@@ -52,11 +43,19 @@ const PrismaProvider = ({ children }) => {
   useEffect(() => {
     ;(async () => {
       try {
-        if (connectedAccount) {
+        if (connectedAccount && networkName !== 'Not Connected') {
           setFetching(true)
           setError('')
-          const user = await fetchUserData(connectedAccount)
-          console.log({ user })
+          const user = await fetcher('/api/user', {
+            method: 'POST',
+            body: JSON.stringify({
+              network: networkName,
+              account: connectedAccount,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
           setUser(user)
           setFetching(false)
         }
@@ -66,9 +65,9 @@ const PrismaProvider = ({ children }) => {
         setFetching(false)
       }
     })()
-  }, [connectedAccount, isConnected, setError])
+  }, [connectedAccount, isConnected, setError, networkName])
   return (
-    <PrismaContext.Provider
+    <UserContext.Provider
       value={{
         user,
         fetching,
@@ -76,10 +75,10 @@ const PrismaProvider = ({ children }) => {
       }}
     >
       {children}
-    </PrismaContext.Provider>
+    </UserContext.Provider>
   )
 }
 
-const usePrisma = () => useContext(PrismaContext)
+const useUser = () => useContext(UserContext)
 
-export { usePrisma, PrismaProvider }
+export { useUser, UserProvider }

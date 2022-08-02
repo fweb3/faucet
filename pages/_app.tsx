@@ -1,4 +1,4 @@
-import { AuthProvider, NetworkProvider, PrismaProvider } from '../hooks'
+import { AuthProvider, NetworkProvider, UserProvider } from '../hooks'
 import { ErrorAlert } from '../components/ErrorAlert'
 import { theme } from '../theme'
 import { ThemeProvider } from '@mui/material/styles'
@@ -12,9 +12,9 @@ function App({ Component, pageProps }: AppProps) {
       <CssBaseline />
       <AuthProvider>
         <NetworkProvider>
-          <PrismaProvider>
+          <UserProvider>
             <Component {...pageProps} />
-          </PrismaProvider>
+          </UserProvider>
         </NetworkProvider>
       </AuthProvider>
     </ThemeProvider>
