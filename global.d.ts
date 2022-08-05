@@ -33,20 +33,24 @@ interface IGameTaskState {
 }
 
 interface IUser {
-    id: string
-    ip: string
-    createdAt: DateTime
-    updatedAt: DateTime
-    account: string
-    email?: string
-    twitter: ITwitterData
-    discord?: string
-    ens?: string
-    role: Role
-    taskState: IGameTaskState
-    active: boolean
-    ipinfo: IIpInfo
-    clientInfo?: string
+  id: string
+  ip: string
+  createdAt: DateTime
+  updatedAt: DateTime
+  account: string
+  email?: string
+  twitter: ITwitterData
+  discord?: string
+  ens?: string
+  role: Role
+  taskState: IGameTaskState
+  active: boolean
+  ipinfo: IIpInfo
+  clientInfo?: string
+  verifyHash: string
+  verifySalt: string
+  faucetIsAllowed: boolean
+  notAllowedReasons: string[]
 }
 
 interface ITwitterData {

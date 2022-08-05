@@ -11,19 +11,19 @@ export const theme = createTheme({
   },
   palette: {
     mode: 'dark',
-    primary: {
-      main: '#323031',
-      light: '#5f5b5d',
-      dark: '#000000',
-    },
-    secondary: {
-      main: '#ff95ed',
-      light: '#ffc7ff',
-      dark: '#ca64ba',
-    },
-    background: {
-      default: '#000000',
-      paper: '#323031',
-    },
+    // primary: {
+    //   main: '#323031',
+    //   light: '#5f5b5d',
+    //   dark: '#000000',
+    // },
+    // secondary: {
+    //   main: '#ff95ed',
+    //   light: '#ffc7ff',
+    //   dark: '#ca64ba',
+    // },
+    // background: {
+    //   default: '#000000',
+    //   paper: '#323031',
+    // },
   },
 })
