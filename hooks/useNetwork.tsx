@@ -26,7 +26,7 @@ const NETNAMES = {
 }
 
 const NetworkProvider = ({ children }: IDefaultProps) => {
-  const [networkName, setNetworkName] = useState<string>('Not Connected')
+  const [networkName, setNetworkName] = useState<string>('')
   const [networkAllowed, setNetworkAllowed] = useState<boolean>(true)
   const [isLocalnet, setIsLocalnet] = useState<boolean>(false)
   const [chainId, setChainId] = useState(null)

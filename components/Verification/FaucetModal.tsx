@@ -1,11 +1,8 @@
-import * as React from 'react'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import { VerifyInput } from './VerifyInput'
+import { Typography } from '@mui/material'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -24,7 +21,6 @@ const style = {
 }
 
 const FaucetModal = ({ openModal, setOpenModal }) => {
-
   return (
     <Modal
       aria-labelledby='transition-modal-title'
@@ -39,7 +35,7 @@ const FaucetModal = ({ openModal, setOpenModal }) => {
     >
       <Fade in={openModal}>
         <Box sx={style}>
-          <VerifyInput setOpenModal={setOpenModal} />
+          <Typography>I am modal</Typography>
         </Box>
       </Fade>
     </Modal>

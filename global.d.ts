@@ -1,4 +1,5 @@
 declare var window: any
+
 type Nullable<T> = T | null | undefined
 interface IDefaultProps {
   children: JSX.Element
@@ -20,68 +21,14 @@ interface IFweb3ContractAddresses {
 }
 
 interface IGameTaskState {
-  hasUsedFweb3Faucet?: string
-  hasUsedMaticFaucet?: string
-  hasSentTokens?: string
-  hasMintedDiamondNFT?: string
-  hasBurnedTokens?: string
-  hasSwappedTokens?: string
-  hasVotedInPoll?: string
-  hasDeployedContract?: string
-  hasWonGame?: string
+  hasUsedFweb3Faucet?: boolean
+  hasUsedMaticFaucet?: boolean
+  hasSentTokens?: boolean
+  hasMintedDiamondNFT?: boolean
+  hasBurnedTokens?: boolean
+  hasSwappedTokens?: boolean
+  hasVotedInPoll?: boolean
+  hasDeployedContract?: boolean
+  hasWonGame?: boolean
   trophyId?: string
-}
-
-interface IUser {
-  id: string
-  ip: string
-  createdAt: DateTime
-  updatedAt: DateTime
-  account: string
-  email?: string
-  twitter: ITwitterData
-  discord?: string
-  ens?: string
-  role: Role
-  taskState: IGameTaskState
-  active: boolean
-  ipinfo: IIpInfo
-  clientInfo?: string
-  verifyHash: string
-  verifySalt: string
-  faucetIsAllowed: boolean
-  notAllowedReasons: string[]
-}
-
-interface ITwitterData {
-    id: string
-    profileImageUrl?: string
-    name?: string
-    twitterId?: string
-    username?: string
-    followersCount?: number
-    followingCount?: number
-    tweetCount?: number
-    location?: string
-    twitterCreatedAt?: DateTime
-}
-
-interface IIpInfo {
-    id: string
-    ip?: string
-    hostname?: string
-    country?: string
-    city?: string
-    region?: string
-    loc?: string
-    org?: string
-    postal?: string
-    timezone?: string
-    userAgent?: string
-}
-
-enum Role {
-  PLAYER,
-  ADMIN,
-  ROOT
 }

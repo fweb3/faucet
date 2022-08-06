@@ -1,9 +1,9 @@
 declare var window: any
-import { fetchIpInfo } from '../services/ipinfo.service'
 
 import { createContext, useState, useEffect, useContext } from 'react'
 import { ethers } from 'ethers'
 import { Web3Provider } from '@ethersproject/providers'
+
 export interface IAuthState {
   isConnected: boolean
   authenticate: () => void

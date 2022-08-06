@@ -1,18 +1,16 @@
+import { ConnectCard } from '../components/ConnectCard'
 import { Container } from '@mui/material'
-// import { FaucetForm } from '../components/Faucet/FaucetForm'
-import { SplashScreen } from '../components/SplashScreen'
 import { useAuth } from '../hooks/useAuth'
-import type { NextPage } from 'next'
-import { VerificationForm } from '../components/Verification/VerificationForm'
-import { useUser } from '../hooks'
 import { useEffect } from 'react'
+import { useUser } from '../hooks'
+import { VerificationScreen } from '../components/Verification/VerificationScreen'
+import type { NextPage } from 'next'
 
 interface IClientInfoProps {
   [key: string]: unknown
 }
 
 const Home: NextPage = ({ clientInfo }: IClientInfoProps) => {
-  const { fetchingUser } = useUser()
   const { isConnected } = useAuth()
   const { setClientInfo } = useUser()
 
@@ -22,7 +20,7 @@ const Home: NextPage = ({ clientInfo }: IClientInfoProps) => {
 
   return (
     <Container>
-      {isConnected && !fetchingUser ? <VerificationForm /> : <SplashScreen />}
+      {isConnected ? <VerificationScreen /> : <ConnectCard />}
     </Container>
   )
 }
@@ -37,7 +35,7 @@ export async function getServerSideProps(context) {
         userAgent,
         ip:
           req?.connection?.remoteAddress ||
-          req.headers['x-forwarded-for'].split(',')[0],
+          req?.headers['x-forwarded-for'].split(',')[0],
       },
     },
   }

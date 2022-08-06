@@ -1,39 +1,39 @@
 import { LoadingButton } from "@mui/lab"
-import { TextField, InputAdornment, Container } from "@mui/material"
+import { TextField, InputAdornment, Box } from "@mui/material"
 import { useUser } from "../../hooks"
 import TwitterIcon from '@mui/icons-material/Twitter'
 import { useState } from "react"
+import { LoadingBackdrop } from "./LoadingBackdrop"
 
-const VerifyInput = ({ setOpenModal }) => {
-  const [twitterName, setTwitterName] = useState('')
-  const { fetchingUser: fetching, userError, submitTwitterHandle } = useUser()
-
-  const handleInputChange = (e) => {
-    setTwitterName(e.target.value)
-  }
+const TwitterField = () => {
+  const [twitterHandle, setTwitterHandle] = useState('')
+  const { userError, submitTwitterHandle, fetching } = useUser()
 
   const handleSubmit = async () => {
-    await submitTwitterHandle(twitterName)
+    await submitTwitterHandle(twitterHandle)
   }
 
   return (
-    <Container sx={{
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-    }}>
+    <Box
+      sx={{
+        display: 'flex',
+        marginTop: '2rem',
+      }}
+    >
+      <LoadingBackdrop isLoading={fetching} />
       <TextField
         sx={{
-          width: '100%'
+          width: '100%',
         }}
         autoFocus={true}
-        label='Enter Twitter Handle'
+        label='Your twitter handle'
         variant='outlined'
         required={true}
         disabled={fetching}
         error={!!userError}
         helperText={userError}
-        onChange={handleInputChange}
+        onChange={({ target }) => setTwitterHandle(target.value)}
+        value={twitterHandle}
         InputProps={{
           startAdornment: (
             <InputAdornment position='start'>
@@ -43,20 +43,19 @@ const VerifyInput = ({ setOpenModal }) => {
         }}
       />
       <LoadingButton
-        variant='contained'
+        variant='outlined'
         size='large'
         loading={fetching}
         onClick={handleSubmit}
-        color='primary'
+        // color='secondary'
         sx={{
           marginLeft: '1rem',
-          padding: '1rem 1.7rem',
         }}
       >
-        Verify
+        Request
       </LoadingButton>
-    </Container>
+    </Box>
   )
 }
 
-export { VerifyInput }
+export { TwitterField }
