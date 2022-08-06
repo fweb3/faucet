@@ -23,7 +23,6 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 const NewUserInfo = () => {
-  const { user } = useUser()
   const [openModal, setOpenModal] = useState<boolean>(false)
 
   const toggleVerifyFormModal = () => {
@@ -84,7 +83,7 @@ const LoadingSpinner = () => (
 )
 
 const VerificationForm = () => {
-  const { user, fetching } = useUser()
+  const { user, fetchingUser: fetching } = useUser()
   return (
     <Container
       sx={{

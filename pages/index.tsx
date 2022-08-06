@@ -12,6 +12,7 @@ interface IClientInfoProps {
 }
 
 const Home: NextPage = ({ clientInfo }: IClientInfoProps) => {
+  const { fetchingUser } = useUser()
   const { isConnected } = useAuth()
   const { setClientInfo } = useUser()
 
@@ -21,7 +22,7 @@ const Home: NextPage = ({ clientInfo }: IClientInfoProps) => {
 
   return (
     <Container>
-      {isConnected ? <VerificationForm /> : <SplashScreen />}
+      {isConnected && !fetchingUser ? <VerificationForm /> : <SplashScreen />}
     </Container>
   )
 }

@@ -13,7 +13,7 @@ export const NavBar = () => {
     if (networkAllowed) {
       setError('')
     } else {
-      setError('Connect to wrong network')
+      setError('Connected to wrong network')
     }
   }, [networkAllowed])
   return (

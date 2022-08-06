@@ -10,38 +10,50 @@ import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices'
 import { useAuth, useUser } from '../hooks'
 
 export const SplashScreen = () => {
+  const { fetchingUser } = useUser()
   const { connecting, authenticate } = useAuth()
-  const { fetching } = useUser()
-  const isLoading = connecting || fetching
   return (
-    <Container sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100vh',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
-      <Typography variant='h2' sx={{
-        margin: '3rem'
-      }}>Fweb3 Faucet</Typography>
-      <LoadingButton
-        variant='contained'
-        color='success'
-        size='large'
-        onClick={() => authenticate()}
-        loading={isLoading}
-        loadingIndicator={<CircularProgress size={50} color='info' />}
-        startIcon={<ElectricalServicesIcon style={{ fontSize: '2rem' }} />}
-        style={{
-          fontSize: '2rem',
-          width: '100%',
-          padding: '1rem',
+    <Container
+      sx={{
+        height: '100vh',
+      }}
+    >
+      <Container
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          height: '100%',
         }}
       >
-        Connect Wallet
-      </LoadingButton>
+        <Typography
+          variant='h2'
+          sx={{
+            margin: '3rem',
+          }}
+        >
+          Fweb3 Faucet
+        </Typography>
+        <LoadingButton
+          variant='contained'
+          color='success'
+          size='large'
+          onClick={() => authenticate()}
+          loading={connecting || fetchingUser}
+          loadingIndicator={<CircularProgress size={50} color='info' />}
+          startIcon={<ElectricalServicesIcon style={{ fontSize: '2rem' }} />}
+          style={{
+            fontSize: '2rem',
+            width: '100%',
+            padding: '1rem',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          Connect Wallet
+        </LoadingButton>
+      </Container>
     </Container>
   )
 }
