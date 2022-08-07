@@ -1,6 +1,7 @@
 export interface IUserVerifyClientRequest {
   network: string
   account: string
+  twitterHandle?: string
 }
 
 export interface IUserVerifyResponse {

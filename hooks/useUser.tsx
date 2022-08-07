@@ -45,24 +45,25 @@ const UserProvider = ({ children }) => {
   const [userError, setUserError] = useState<string>('')
   const [verificationTweetUrl, setVerificationTweetUrl] = useState<string>('')
   const [twitterResponse, setTwitterResponse] = useState(null)
+
   const submitTwitterHandle = async (handle: string) => {
     try {
       setFetching(true)
       const data = await fetcher('/api/twitter', {
+        method: 'POST',
         body: JSON.stringify({
           twitterHandle: handle,
           account: connectedAccount,
-          network: networkName.toLowerCase()
-        })
+          network: networkName.toLowerCase(),
+        }),
       })
       setTwitterResponse(data)
       setFetching(false)
     } catch (err) {
       console.error(err)
       setUserError('something went wrong')
+      setFetching(true)
     }
-    setUserError('')
-    setFetching(true)
   }
 
   useEffect(() => {
@@ -77,10 +78,7 @@ const UserProvider = ({ children }) => {
           //     network: networkName.toLowerCase(),
           //     account: connectedAccount,
           //     clientInfo,
-          //   }),
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
+          //   })
           // })
           const user = MOCK_USER
           if (user.status !== 'ok' || !user) {

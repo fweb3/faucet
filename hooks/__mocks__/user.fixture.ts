@@ -6,7 +6,7 @@ export const MOCK_USER = {
   ip: '::ffff:127.0.0.1',
   createdAt: '2022-08-06T21:22:50.900Z',
   updatedAt: '2022-08-06T21:22:50.901Z',
-  account: 'polygon:0xb15A3D29eFe51baaC8d3cd2f4F747B843FeAdA7d',
+  account: 'polygon:0xb15a3d29efe51baac8d3cd2f4f747b843feada7d',
   email: null,
   discord: null,
   ens: null,

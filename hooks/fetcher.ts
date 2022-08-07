@@ -18,7 +18,7 @@ export async function fetcher(url: string, opts?: IFetchOpts) {
     console.error(err)
     return {
       status: 'error',
-      message: err.message,
+      message: err,
     }
   }
 }
